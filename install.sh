@@ -1,4 +1,4 @@
-#!/bin/sh
+++--+++++--++#!/bin/sh
 
 # script to automatically do the following steps:
 #   - install the dependencies to compile the program, i.e. install 'gcc', 'make' and 'libhidapi-dev'
@@ -14,7 +14,7 @@ sleep 1
 echo "Installing dependencies..."
 sleep 2
 
-if (sudo apt install -y gcc make libhidapi-dev); then
+if (sudo yum install -y gcc make hidapi-devel); then
     echo "Dependencies successfully installed"
     sleep 2
 else
@@ -54,3 +54,12 @@ if (sudo msiklm test); then
 else
     echo "Testing of 'msiklm' failed"
 fi
+
+echo "Enable usage"
+sudo mv -fv msiklm /usr/local/bin/msiklm
+sudo chmod 755 /usr/local/bin/msiklm
+echo "Set white color"
+sudo msiklm white
+echo "Enable autostart with white color"
+./autostart white
+echo "Done"

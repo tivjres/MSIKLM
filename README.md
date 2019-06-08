@@ -1,3 +1,7 @@
+# FORK REASON
+
+Fedora support (yum manager) + autostart after installing
+
 # GENERAL
 
 The MSI Keyboard Light Manager (MSIKLM) is an easy-to-use tool that allows to configure the
