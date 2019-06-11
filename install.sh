@@ -1,4 +1,4 @@
-++--+++++--++#!/bin/sh
+#!/bin/sh
 
 # script to automatically do the following steps:
 #   - install the dependencies to compile the program, i.e. install 'gcc', 'make' and 'libhidapi-dev'
@@ -14,9 +14,19 @@ sleep 1
 echo "Installing dependencies..."
 sleep 2
 
-if (sudo yum install -y gcc make hidapi-devel); then
-    echo "Dependencies successfully installed"
-    sleep 2
+if (command which yum); then
+    if (sudo yum install -y gcc make hidapi-devel); then
+      echo "Detected as CENTOS-based && dependencies successfully installed"
+      sleep 2
+    else
+      echo "Dependencies could not be installed"
+    fi
+elif (command which apt); then
+    if (sudo apt install -y gcc make libhidapi-dev); then
+      echo "Detected as DEBIAN-based && dependencies successfully installed"
+    else
+      echo "Dependencies could not be installed"
+    fi
 else
     echo "Dependencies could not be installed"
     exit 1
@@ -51,15 +61,39 @@ if (sudo msiklm test); then
     echo "To configure the keyboard run 'msiklm' with your configuartion of choice, for a list of valid commands run 'msiklm help'."
     echo "If you want to enable the autostart, run 'autostart.sh' with your configuartion of choice, to uninstall 'msiklm' run 'uninstall.sh'."
     echo "Thank you for using 'msiklm' and have fun with it! :-)"
+    echo "Enable usage"
+    sleep 1
+
+    if (sudo mv -fv msiklm /usr/local/bin/msiklm); then
+        echo "Software was moved to /usr/local/bin/msiklm"
+        sleep 1
+
+        if (sudo chmod 755 /usr/local/bin/msiklm); then
+            echo "Permissions was set 755 to /usr/local/bin/msiklm"
+            sleep 1
+
+            if (sudo msiklm white); then
+                echo "Set white color"
+                sleep 1
+
+                if (bash ./autostart white); then
+                    echo "Enable autostart with white color"
+                else
+                    echo "Failed to enable autostart"
+                fi
+
+            echo "Finished"
+
+            else
+                echo "Failed to set white color"
+            fi
+        else
+          echo "Failed to set permissions 755 on /usr/local/bin/msiklm"
+        fi
+    else
+        echo "Failed to move software into /usr/local/bin/msiklm"
+    fi
+
 else
     echo "Testing of 'msiklm' failed"
 fi
-
-echo "Enable usage"
-sudo mv -fv msiklm /usr/local/bin/msiklm
-sudo chmod 755 /usr/local/bin/msiklm
-echo "Set white color"
-sudo msiklm white
-echo "Enable autostart with white color"
-./autostart white
-echo "Done"

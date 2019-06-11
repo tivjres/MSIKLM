@@ -1,6 +1,8 @@
 # FORK REASON
 
-Fedora support (yum manager) + autostart after installing
+Implement Fedora support (yum manager) + autostart after installing
+
+Also still available for DEBIAN-based systems
 
 # GENERAL
 
